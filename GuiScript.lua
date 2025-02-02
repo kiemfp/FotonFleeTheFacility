@@ -653,12 +653,13 @@ PageTitleText_3.TextXAlignment = Enum.TextXAlignment.Left
 
 ViewportFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 ViewportFrame.Parent = FotonFTF
-ViewportFrame.Position = UDim2.new(0, 5, 0.666000009, -5)
+ViewportFrame.Position = UDim2.new(.333, 0, .333, 0)
 ViewportFrame.Size = UDim2.new(0.333, 0, 0.333, 0)
 ViewportFrame.Ambient = Color3.fromRGB(147,147,147)
 ViewportFrame.LightDirection = Vector3.new(0,1,0)
 ViewportFrame.BackgroundColor3 = Color3.fromRGB(50,50,50)
 ViewportFrame.BackgroundTransparency = 0.9
+ViewportFrame.Interactable = false
 ViewportFrame.Visible = false
 
 return gui
