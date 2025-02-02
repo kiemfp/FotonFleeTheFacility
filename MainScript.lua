@@ -1,6 +1,7 @@
-local ver = "v0.1.55"
+local ver = "v0.1.6"
 local wantraw = true
-gui = loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
+gui = loadstring(game:HttpGet(
+	"https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
 RunService = game:GetService("RunService")
 Players = game:GetService("Players")
 --lazyMethod is here
@@ -55,43 +56,43 @@ ViewportFrame = gui.ViewportFrame
 
 
 
-CheatButton.MouseButton1Down:Connect(function()
+CheatButton.Activated:Connect(function()
 	ESPMenuWindow.Visible = false
 	ToolsMenuWindow.Visible = false
 	MainMenuWindow.Visible = not MainMenuWindow.Visible
 end)
 
-CloseButton_2.MouseButton1Down:Connect(function()
+CloseButton_2.Activated:Connect(function()
 	MainMenuWindow.Visible = false
 end)
 
-CloseButton.MouseButton1Down:Connect(function()
+CloseButton.Activated:Connect(function()
 	ESPMenuWindow.Visible = false
 end)
 
-CloseButton_3.MouseButton1Down:Connect(function()
+CloseButton_3.Activated:Connect(function()
 	ToolsMenuWindow.Visible = false
 end)
 
-BackButton.MouseButton1Down:Connect(function()
-	ESPMenuWindow.Visible = false
-	ToolsMenuWindow.Visible = false
-	MainMenuWindow.Visible = true
-end)
-
-BackButton_2.MouseButton1Down:Connect(function()
+BackButton.Activated:Connect(function()
 	ESPMenuWindow.Visible = false
 	ToolsMenuWindow.Visible = false
 	MainMenuWindow.Visible = true
 end)
 
-ESPButton.MouseButton1Down:Connect(function()
+BackButton_2.Activated:Connect(function()
+	ESPMenuWindow.Visible = false
+	ToolsMenuWindow.Visible = false
+	MainMenuWindow.Visible = true
+end)
+
+ESPButton.Activated:Connect(function()
 	ESPMenuWindow.Visible = true
 	ToolsMenuWindow.Visible = false
 	MainMenuWindow.Visible = false
 end)
 
-ToolsButton.MouseButton1Down:Connect(function()
+ToolsButton.Activated:Connect(function()
 	ESPMenuWindow.Visible = false
 	ToolsMenuWindow.Visible = true
 	MainMenuWindow.Visible = false
@@ -111,7 +112,7 @@ local autointeracttoggle = false
 local autoplaytoggle = false
 
 
-PodsESPButton.MouseButton1Down:Connect(function()
+PodsESPButton.Activated:Connect(function()
 	if podstoggle == false then
 		podstoggle = true
 		PodsESPButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -123,7 +124,7 @@ PodsESPButton.MouseButton1Down:Connect(function()
 	end
 end)
 
-PCESPButton.MouseButton1Down:Connect(function()
+PCESPButton.Activated:Connect(function()
 	if pctoggle == false then
 		pctoggle = true
 		PCESPButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -136,7 +137,7 @@ PCESPButton.MouseButton1Down:Connect(function()
 end)
 
 
-PlayerESPButton.MouseButton1Down:Connect(function()
+PlayerESPButton.Activated:Connect(function()
 	if playertoggle == false then
 		playertoggle = true
 		PlayerESPButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -149,7 +150,7 @@ PlayerESPButton.MouseButton1Down:Connect(function()
 end)
 
 
-BestPCESPButton.MouseButton1Down:Connect(function()
+BestPCESPButton.Activated:Connect(function()
 	if bestpctoggle == false then
 		bestpctoggle = true
 		BestPCESPButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -161,7 +162,7 @@ BestPCESPButton.MouseButton1Down:Connect(function()
 	end
 end)
 
-ExitsESPButton.MouseButton1Down:Connect(function()
+ExitsESPButton.Activated:Connect(function()
 	if exitstoggle == false then
 		exitstoggle = true
 		ExitsESPButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -173,7 +174,7 @@ ExitsESPButton.MouseButton1Down:Connect(function()
 	end
 end)
 
-NeverFailButton.MouseButton1Down:Connect(function()
+NeverFailButton.Activated:Connect(function()
 	if neverfailtoggle == false then
 		neverfailtoggle = true
 		NeverFailButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -183,7 +184,7 @@ NeverFailButton.MouseButton1Down:Connect(function()
 	end
 end)
 
-AutoInteractButton.MouseButton1Down:Connect(function()
+AutoInteractButton.Activated:Connect(function()
 	if autointeracttoggle == false then
 		autointeracttoggle = true
 		AutoInteractButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -194,7 +195,7 @@ AutoInteractButton.MouseButton1Down:Connect(function()
 end)
 
 
-BeastCamButton.MouseButton1Down:Connect(function()
+BeastCamButton.Activated:Connect(function()
 	if beastcamtoggle == false then
 		beastcamtoggle = true
 		ViewportFrame.Visible = true
@@ -209,8 +210,43 @@ BeastCamButton.MouseButton1Down:Connect(function()
 end)
 
 
+local toggle = false
 
-AutoPlayButton.MouseButton1Down:Connect(function()
+local function toggleFogAndAtmosphere()
+	while toggle do
+		game.Lighting.FogEnd = 1000000
+		game.Lighting.FogStart = 1000000
+		game.Lighting.FogColor = Color3.new(1, 1, 1)
+
+		local atmosphere = game.Lighting:FindFirstChildOfClass("Atmosphere")
+		if atmosphere then
+			atmosphere.Density = 0
+		end
+
+		task.wait(0.001)
+	end
+end
+
+
+local function setToggle()
+	toggle = not toggle
+	if toggle then
+		task.spawn(toggleFogAndAtmosphere())
+	else
+
+	game.Lighting.FogEnd = 1000
+	game.Lighting.FogStart = 0
+	game.Lighting.FogColor = Color3.new(0.5, 0.5, 0.5) 
+
+	local atmosphere = game.Lighting:FindFirstChildOfClass("Atmosphere")
+	if atmosphere then
+		atmosphere.Density = 8
+	end
+	end
+end
+
+
+AutoPlayButton.Activated:Connect(function()
 	if autoplaytoggle == false then
 		autoplaytoggle = true
 		AutoPlayButton.BackgroundColor3 = Color3.new(0, 0.74902, 0)
@@ -218,6 +254,10 @@ AutoPlayButton.MouseButton1Down:Connect(function()
 		autoplaytoggle = false
 		AutoPlayButton.BackgroundColor3 = Color3.new(0.74902, 0, 0)
 	end
+end)
+
+FullBrightButton.Activated:Connect(function()
+	setToggle()
 end)
 
 function reloadESP()
@@ -244,12 +284,12 @@ function reloadESP()
 									else
 										a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
 										a.OutlineColor = Color3.fromRGB(a.FillColor.R * 400,
-										a.FillColor.G * 400, a.FillColor.B * 400)
+											a.FillColor.G * 400, a.FillColor.B * 400)
 									end
 								else
 									a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
 									a.OutlineColor = Color3.fromRGB(a.FillColor.R * 400, a.FillColor.G * 400,
-									a.FillColor.B * 400)
+										a.FillColor.B * 400)
 								end
 								task.wait(2.5)
 							until mapstuff[i] == nil or a == nil
@@ -314,105 +354,105 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 
 -- Configurações
-local RENDER_DISTANCE = 50 -- Distância máxima para renderizar partes e jogadores
+local RENDER_DISTANCE = 50  -- Distância máxima para renderizar partes e jogadores
 local UPDATE_INTERVAL = 0.3 -- Intervalo de atualização para clones de jogadores e portas
 
 function reloadBeastCam()
-    ViewportFrame:ClearAllChildren()
-    
-    if not beastcamtoggle or game.ReplicatedStorage.CurrentMap.Value == nil then
-        return
-    end
+	ViewportFrame:ClearAllChildren()
 
-    local beast = getBeast()
-    local cam = Instance.new("Camera")
-    cam.CameraType = Enum.CameraType.Scriptable
-    cam.FieldOfView = 70
-    cam.Parent = ViewportFrame
-    ViewportFrame.CurrentCamera = cam
+	if not beastcamtoggle or game.ReplicatedStorage.CurrentMap.Value == nil then
+		return
+	end
 
-    local map = game.ReplicatedStorage.CurrentMap.Value
-    local mapclone = map:Clone()
-    mapclone.Name = "map"
+	local beast = getBeast()
+	local cam = Instance.new("Camera")
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.FieldOfView = 70
+	cam.Parent = ViewportFrame
+	ViewportFrame.CurrentCamera = cam
 
-    -- Remove partes desnecessárias do clone do mapa
-    for _, descendant in ipairs(mapclone:GetDescendants()) do
-        if descendant.Name == "SingleDoor" or descendant.Name == "DoubleDoor" or descendant:IsA("Sound") or descendant:IsA("LocalScript") or descendant:IsA("Script") then
-            descendant:Destroy()
-        end
-    end
+	local map = game.ReplicatedStorage.CurrentMap.Value
+	local mapclone = map:Clone()
+	mapclone.Name = "map"
 
-    mapclone.Parent = ViewportFrame
+	-- Remove partes desnecessárias do clone do mapa
+	for _, descendant in ipairs(mapclone:GetDescendants()) do
+		if descendant.Name == "SingleDoor" or descendant.Name == "DoubleDoor" or descendant:IsA("Sound") or descendant:IsA("LocalScript") or descendant:IsA("Script") then
+			descendant:Destroy()
+		end
+	end
 
-    local dummy = Instance.new("Folder", ViewportFrame)
-    dummy.Name = "dummy"
-    local doors = Instance.new("Folder", ViewportFrame)
-    doors.Name = "doors"
+	mapclone.Parent = ViewportFrame
 
-    local function updateCamera()
-        if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
-            return
-        end
+	local dummy = Instance.new("Folder", ViewportFrame)
+	dummy.Name = "dummy"
+	local doors = Instance.new("Folder", ViewportFrame)
+	doors.Name = "doors"
 
-        local beastCharacter = getBeast().Character
-        if beastCharacter and beastCharacter:FindFirstChild("Head") then
-            cam.CFrame = beastCharacter.Head.CFrame
-        end
-    end
+	local function updateCamera()
+		if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
+			return
+		end
 
-    local function updateDummyAndDoors()
-        if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
-            return
-        end
+		local beastCharacter = getBeast().Character
+		if beastCharacter and beastCharacter:FindFirstChild("Head") then
+			cam.CFrame = beastCharacter.Head.CFrame
+		end
+	end
 
-        -- Atualiza as portas
-        doors:ClearAllChildren()
-        for _, door in ipairs(map:GetChildren()) do
-            if door.Name == "SingleDoor" or door.Name == "DoubleDoor" then
-                local doorPosition = door:GetPivot().Position
-                local camPosition = cam.CFrame.Position
-                if (doorPosition - camPosition).Magnitude <= RENDER_DISTANCE then
-                    local doorClone = door:Clone()
-                    doorClone.Parent = doors
-                end
-            end
-        end
+	local function updateDummyAndDoors()
+		if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
+			return
+		end
 
-        -- Atualiza os clones dos jogadores
-        dummy:ClearAllChildren()
-        for _, player in ipairs(Players:GetPlayers()) do
-            if player ~= getBeast() and player.Character then
-                local charPosition = player.Character:GetPivot().Position
-                local camPosition = cam.CFrame.Position
-                if (charPosition - camPosition).Magnitude <= RENDER_DISTANCE then
-                    player.Character.Archivable = true
-                    local dummyClone = player.Character:Clone()
-                    for _, part in ipairs(dummyClone:GetDescendants()) do
-                        if part:IsA("Sound") or part:IsA("LocalScript") or part:IsA("Script") then
-                            part:Destroy()
-                        end
-                    end
-                    dummyClone.Parent = dummy
-                end
-            end
-        end
-    end
+		-- Atualiza as portas
+		doors:ClearAllChildren()
+		for _, door in ipairs(map:GetChildren()) do
+			if door.Name == "SingleDoor" or door.Name == "DoubleDoor" then
+				local doorPosition = door:GetPivot().Position
+				local camPosition = cam.CFrame.Position
+				if (doorPosition - camPosition).Magnitude <= RENDER_DISTANCE then
+					local doorClone = door:Clone()
+					doorClone.Parent = doors
+				end
+			end
+		end
 
-    -- Conecta ao Heartbeat para atualizações contínuas
-    local heartbeatConnection
-    heartbeatConnection = RunService.Heartbeat:Connect(function()
-        if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
-            heartbeatConnection:Disconnect()
-            cam:Destroy()
-            mapclone:Destroy()
-            dummy:Destroy()
-            doors:Destroy()
-            return
-        end
+		-- Atualiza os clones dos jogadores
+		dummy:ClearAllChildren()
+		for _, player in ipairs(Players:GetPlayers()) do
+			if player ~= getBeast() and player.Character then
+				local charPosition = player.Character:GetPivot().Position
+				local camPosition = cam.CFrame.Position
+				if (charPosition - camPosition).Magnitude <= RENDER_DISTANCE then
+					player.Character.Archivable = true
+					local dummyClone = player.Character:Clone()
+					for _, part in ipairs(dummyClone:GetDescendants()) do
+						if part:IsA("Sound") or part:IsA("LocalScript") or part:IsA("Script") then
+							part:Destroy()
+						end
+					end
+					dummyClone.Parent = dummy
+				end
+			end
+		end
+	end
 
-        updateCamera()
-        updateDummyAndDoors()
-    end)
+	-- Conecta ao Heartbeat para atualizações contínuas
+	local heartbeatConnection
+	heartbeatConnection = RunService.Heartbeat:Connect(function()
+		if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
+			heartbeatConnection:Disconnect()
+			cam:Destroy()
+			mapclone:Destroy()
+			dummy:Destroy()
+			doors:Destroy()
+			return
+		end
+
+		updateCamera()
+		updateDummyAndDoors()
+	end)
 end
 
 function old_reloadBeastCam()
@@ -545,7 +585,7 @@ end
 task.spawn(function() -- reload esp when new map
 	game.ReplicatedStorage.CurrentMap.Changed:Connect(function()
 		--repeat task.wait() until -- idk what to put for a good method to wait for map to load
-		task.wait(5)  -- hopefully enough time for map to load ;)
+		task.wait(5) -- hopefully enough time for map to load ;)
 		reloadESP()
 		if beastcamtoggle then
 			reloadBeastCam()
@@ -561,7 +601,6 @@ task.spawn(function() -- reload esp when game becomes active
 		end
 	end)
 end)
-
 
 
 task.spawn(function() --reload esp when character loads/deloads
@@ -585,7 +624,7 @@ task.spawn(function() -- never fail hacking
 	end)
 end)
 
-function neverFailForBADexecutor()
+function neverFailForBADexecutor() -- nah
 end
 
 task.spawn(function() -- auto interact

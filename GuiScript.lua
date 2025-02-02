@@ -1,4 +1,4 @@
-local ver = "v0.1.55"
+local ver = "v0.1.6"
 
 gui = {}
 
@@ -50,6 +50,7 @@ gui.BackButton_2 = Instance.new("TextButton")
 gui.CreditTotalText_3 = Instance.new("TextLabel")
 gui.PageTitleText_3 = Instance.new("TextLabel")
 gui.ViewportFrame = Instance.new("ViewportFrame")
+gui.FullBrightButton = Instance.new("TextButton")
 
 --lazy method above ;V lol
 FotonFTF = gui.FotonFTF
@@ -102,12 +103,12 @@ PageTitleText_3 = gui.PageTitleText_3
 ViewportFrame = gui.ViewportFrame
 
 FotonFTF.Name = "FotonFTF"
-FotonFTF.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+FotonFTF.Parent = game.CoreGui
 FotonFTF.IgnoreGuiInset = true
 FotonFTF.ResetOnSpawn = false
 
 MenusTabFrame.Name = "MenusTabFrame"
-MenusTabFrame.Parent = FotonFTF
+MenusTabFrame.Parent = nil--FotonFTF
 MenusTabFrame.AnchorPoint = Vector2.new(1, 0.5)
 MenusTabFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 MenusTabFrame.BackgroundTransparency = 1.000
@@ -118,7 +119,7 @@ MenusTabFrame.Size = UDim2.new(0.0799999982, 0, 0.159999996, 0)
 MenusTabFrame.SizeConstraint = Enum.SizeConstraint.RelativeYY
 
 CheatButton.Name = "CheatButton"
-CheatButton.Parent = MenusTabFrame
+CheatButton.Parent = game.Players.LocalPlayer.PlayerGui.ScreenGui.MenusTabFrame -- MenusTabFrame
 CheatButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 CheatButton.BackgroundTransparency = 0.500
 CheatButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -663,5 +664,20 @@ ViewportFrame.BackgroundColor3 = Color3.fromRGB(50,50,50)
 ViewportFrame.BackgroundTransparency = 0.9
 ViewportFrame.Interactable = false
 ViewportFrame.Visible = false
+ViewportFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
+ViewportFrame.BorderSizePixel = 3
+
+FullBrightButton.Name = "FullBrightButton"
+FullBrightButton.Parent = ButtonsFrame_2
+FullBrightButton.BackgroundColor3 = Color3.fromRGB(191, 0, 0)
+FullBrightButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+FullBrightButton.BorderSizePixel = 0
+FullBrightButton.LayoutOrder = 3
+FullBrightButton.Size = UDim2.new(0, 200, 0, 50)
+FullBrightButton.Text = "FullBright"
+FullBrightButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FullBrightButton.TextScaled = true
+FullBrightButton.TextSize = 13.000
+FullBrightButton.TextWrapped = true
 
 return gui
