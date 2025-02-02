@@ -101,6 +101,7 @@ BackButton_2 = gui.BackButton_2
 CreditTotalText_3 = gui.CreditTotalText_3
 PageTitleText_3 = gui.PageTitleText_3
 ViewportFrame = gui.ViewportFrame
+FullBrightButton = gui.FullBrightButton
 
 FotonFTF.Name = "FotonFTF"
 FotonFTF.Parent = game.CoreGui
