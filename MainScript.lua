@@ -1,7 +1,6 @@
 local ver = "v0.1.6"
 local wantraw = true
-gui = loadstring(game:HttpGet(
-	"https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
+gui = loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
 RunService = game:GetService("RunService")
 Players = game:GetService("Players")
 --lazyMethod is here
