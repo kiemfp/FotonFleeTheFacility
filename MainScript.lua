@@ -1,4 +1,4 @@
-local ver = "v0.1.4" -- loadstring(game:HttpGet("https://raw.githubusercontent.com/LeviTheOtaku/roblox-scripts/main/FotonFTF.lua",true))()
+local ver = "v0.1.4"
 local wantraw = true
 gui = loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
 
@@ -223,90 +223,91 @@ function reloadESP()
 	task.spawn(function()
 		local map = game.ReplicatedStorage.CurrentMap.Value
 		if map ~= nil then
-		local mapstuff = map:getChildren()
-		for i=1,#mapstuff do
-			if mapstuff[i].Name == "ComputerTable" then
-				if mapstuff[i]:findFirstChild("Highlight") and not pctoggle then
-					mapstuff[i].Highlight:remove()
-				end
-				if pctoggle and not mapstuff[i]:findFirstChild("Highlight") then
-					local a = Instance.new("Highlight", mapstuff[i])
-					a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-					a.FillColor = Color3.fromRGB(13, 105, 172) -- avoid display bugs as soon as loads :)
-					a.OutlineColor = Color3.fromRGB(20, 165, 270) -- avoid display bugs as soon as loads :)
-					spawn(function()
-						repeat 
-							if bestpctoggle and mapstuff[i]:findFirstChild("Screen") then
-								if getBestPC()[1].pc ~= nil and mapstuff[i] == getBestPC()[1].pc then
-									a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
-									a.OutlineColor = Color3.fromRGB(200, 0, 255)
+			local mapstuff = map:getChildren()
+			for i = 1, #mapstuff do
+				if mapstuff[i].Name == "ComputerTable" then
+					if mapstuff[i]:findFirstChild("Highlight") and not pctoggle then
+						mapstuff[i].Highlight:remove()
+					end
+					if pctoggle and not mapstuff[i]:findFirstChild("Highlight") then
+						local HighlightThing = Instance.new("Highlight", mapstuff[i])
+						HighlightThing.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+						HighlightThing.FillColor = Color3.fromRGB(13, 105, 172) -- avoid display bugs as soon as loads :)
+						HighlightThing.OutlineColor = Color3.fromRGB(20, 165, 270) -- avoid display bugs as soon as loads :)
+						task.spawn(function()
+							repeat
+								if bestpctoggle and mapstuff[i]:findFirstChild("Screen") then
+									if getBestPC()[1].pc ~= nil and mapstuff[i] == getBestPC()[1].pc then
+										HighlightThing.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+										HighlightThing.OutlineColor = Color3.fromRGB(200, 0, 255)
+									else
+										HighlightThing.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+										HighlightThing.OutlineColor = Color3.fromRGB(a.FillColor.R * 400,
+										HighlightThing.FillColor.G * 400, a.FillColor.B * 400)
+									end
 								else
-									a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
-									a.OutlineColor = Color3.fromRGB(a.FillColor.R*400, a.FillColor.G*400, a.FillColor.B*400)
+									HighlightThing.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+									HighlightThing.OutlineColor = Color3.fromRGB(a.FillColor.R * 400, a.FillColor.G * 400,
+									HighlightThing.FillColor.B * 400)
 								end
-							else
-								a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
-								a.OutlineColor = Color3.fromRGB(a.FillColor.R*400, a.FillColor.G*400, a.FillColor.B*400)
-							end
-							wait(1)
-						until mapstuff[i] == nil or a == nil
-					end)
+								task.wait(2.5)
+							until mapstuff[i] == nil or HighlightThing4 == nil
+						end)
+					end
+				end
+				if mapstuff[i].Name == "FreezePod" then
+					if mapstuff[i]:findFirstChild("Highlight") and not podstoggle then
+						mapstuff[i].Highlight:remove()
+					end
+					if podstoggle and not mapstuff[i]:findFirstChild("Highlight") then
+						local HighlightThing2 = Instance.new("Highlight", mapstuff[i])
+						HighlightThing2.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+						HighlightThing2.FillColor = Color3.fromRGB(120, 200, 255)
+						HighlightThing2.OutlineColor = Color3.fromRGB(160, 255, 255)
+					end
+				end
+				if mapstuff[i].Name == "ExitDoor" then
+					if mapstuff[i]:findFirstChild("Highlight") and not exitstoggle then
+						mapstuff[i].Highlight:remove()
+					end
+					if exitstoggle and not mapstuff[i]:findFirstChild("Highlight") then
+						local HighlightThing3 = Instance.new("Highlight", mapstuff[i])
+						HighlightThing3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+						HighlightThing3.FillColor = Color3.fromRGB(252, 255, 100)
+						HighlightThing3.OutlineColor = Color3.fromRGB(255, 255, 160)
+					end
 				end
 			end
-			if mapstuff[i].Name == "FreezePod" then
-				if mapstuff[i]:findFirstChild("Highlight") and not podstoggle then
-					mapstuff[i].Highlight:remove()
-				end
-				if podstoggle and not mapstuff[i]:findFirstChild("Highlight") then
-					local a = Instance.new("Highlight", mapstuff[i])
-					a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-					a.FillColor = Color3.fromRGB(120,200,255)
-					a.OutlineColor = Color3.fromRGB(160,255,255)
-				end
-			end
-			if mapstuff[i].Name == "ExitDoor" then
-				if mapstuff[i]:findFirstChild("Highlight") and not exitstoggle then
-					mapstuff[i].Highlight:remove()
-				end
-				if exitstoggle and not mapstuff[i]:findFirstChild("Highlight") then
-					local a = Instance.new("Highlight", mapstuff[i])
-					a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-					a.FillColor = Color3.fromRGB(252, 255, 100)
-					a.OutlineColor = Color3.fromRGB(255,255,160)
-				end
-			end
-			end
-			end
+		end
 	end)
 	local player = game.Players:GetChildren()
-	for i=1, #player do
+	for i = 1, #player do
 		if player[i] ~= game.Players.LocalPlayer and player[i].Character ~= nil then
-		local character = player[i].Character
-		if character:findFirstChild("Highlight") and not playertoggle then
-			character.Highlight:remove()
+			local character = player[i].Character
+			if character:findFirstChild("Highlight") and not playertoggle then
+				character.Highlight:remove()
+			end
+			if playertoggle and not character:findFirstChild("Highlight") then
+				local HighlightThing4 = Instance.new("Highlight", character)
+				HighlightThing4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				HighlightThing4.FillColor = Color3.fromRGB(0, 255, 0) -- avoid display bugs as soon as loads :)
+				HighlightThing4.OutlineColor = Color3.fromRGB(127, 255, 127) -- avoid display bugs as soon as loads :)
+				task.spawn(function()
+					repeat
+						task.wait(0.5)
+						if player[i] == getBeast() then
+							HighlightThing4.FillColor = Color3.fromRGB(255, 0, 0)
+							HighlightThing4.OutlineColor = Color3.fromRGB(255, 127, 127)
+						else
+							HighlightThing4.FillColor = Color3.fromRGB(0, 255, 0)
+							HighlightThing4.OutlineColor = Color3.fromRGB(127, 255, 127)
+						end
+					until character == nil or HighlightThing4 == nil
+				end)
+			end
 		end
-		if playertoggle and not character:findFirstChild("Highlight") then
-			local a = Instance.new("Highlight", character)
-			a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-			a.FillColor = Color3.fromRGB(0,255,0) -- avoid display bugs as soon as loads :)
-			a.OutlineColor = Color3.fromRGB(127,255,127) -- avoid display bugs as soon as loads :)
-			spawn(function()
-				repeat
-					wait(0.1)
-					if player[i] == getBeast() then
-						a.FillColor = Color3.fromRGB(255,0,0)
-						a.OutlineColor = Color3.fromRGB(255,127,127)
-					else
-						a.FillColor = Color3.fromRGB(0,255,0)
-						a.OutlineColor = Color3.fromRGB(127,255,127)
-					end
-				until character == nil or a == nil
-			end)
-			end
-			end
 	end
 end
-
 
 function reloadBeastCam()
 	ViewportFrame:ClearAllChildren()
@@ -319,30 +320,30 @@ function reloadBeastCam()
 		local mapclone = map:clone()
 		mapclone.Name = "map"
 		local mcstuff = mapclone:getDescendants()
-		for i=1,#mcstuff do
+		for i = 1, #mcstuff do
 			if mcstuff[i].Name == "SingleDoor" or mcstuff[i].Name == "DoubleDoor" or mcstuff[i].ClassName == "Sound" or mcstuff[i].ClassName == "LocalScript" or mcstuff[i].ClassName == "Script" then
-				mcstuff[i]:remove() 
+				mcstuff[i]:Destroy()
 			end
 		end
 
 		mapclone.Parent = ViewportFrame
 		ViewportFrame.CurrentCamera = cam
 
-		spawn(function()
+		task.spawn(function()
 			repeat
-				wait()
+				task.wait()
 				if not beastcamtoggle then
 					break
 				end
 				repeat
-					wait()
+					task.wait()
 				until getBeast().Character ~= nil
 				cam.CFrame = getBeast().Character.Head.CFrame
-				wait()
+				task.wait()
 			until cam == nil or mapclone == nil or beast ~= getBeast()
 		end)
 
-		spawn(function()
+		task.spawn(function()
 			local dummy = Instance.new("Folder", ViewportFrame)
 			dummy.Name = "dummy"
 			dummy.Parent = ViewportFrame
@@ -351,12 +352,12 @@ function reloadBeastCam()
 			doors.Parent = ViewportFrame
 
 			repeat
-				wait()
+				task.wait()
 				if not beastcamtoggle then
 					break
 				end
 				local doorsstuff = map:GetChildren()
-				for i=1,#doorsstuff do
+				for i = 1, #doorsstuff do
 					if doorsstuff[i].Name == "SingleDoor" or doorsstuff[i].Name == "DoubleDoor" then
 						local a = doorsstuff[i]:clone()
 						a.Parent = doors
@@ -364,28 +365,27 @@ function reloadBeastCam()
 				end
 
 				local players = game.Players:getChildren()
-				for i=1,#players do
+				for i = 1, #players do
 					if players[i] ~= getBeast() then
 						if players[i].Character ~= nil then
 							players[i].Character.Archivable = true
 							local dummyclone = players[i].Character:clone()
 							local bodyparts = dummyclone:getDescendants()
 
-							for i=1,#bodyparts do
+							for i = 1, #bodyparts do
 								if bodyparts[i].ClassName == "Sound" or bodyparts[i].ClassName == "LocalScript" or bodyparts[i].ClassName == "Script" then
-									bodyparts[i]:remove() 
+									bodyparts[i]:remove()
 								end
 							end
-							
-							
+
+
 							dummyclone.Parent = dummy
-							
 						end
 					end
 				end
 
 
-				wait(0.3)
+				task.wait(0.3)
 
 				dummy:ClearAllChildren()
 				doors:ClearAllChildren()
@@ -396,7 +396,7 @@ end
 
 function getBeast()
 	local player = game.Players:GetChildren()
-	for i=1, #player do
+	for i = 1, #player do
 		local character = player[i].Character
 		if player[i]:findFirstChild("TempPlayerStatsModule"):findFirstChild("IsBeast").Value == true or (character ~= nil and character:findFirstChild("BeastPowers")) then
 			return player[i]
@@ -405,59 +405,60 @@ function getBeast()
 end
 
 function getBestPC()
-    local beast = getBeast()
-    local pcs = {}
+	local beast = getBeast()
+	local pcs = {}
 
-    local map = game.ReplicatedStorage.CurrentMap.Value
-    if map ~= nil then
-        local mapstuff = map:getChildren()
-        for i=1,#mapstuff do
-            if mapstuff[i].Name == "ComputerTable" then
-                if mapstuff[i].Screen.BrickColor ~= BrickColor.new("Dark green") then
-                    local magnitude = ((mapstuff[i].Screen.Position - beast.Character:findFirstChild("HumanoidRootPart").Position).magnitude)
-                    table.insert(pcs, {magnitude=magnitude, pc=mapstuff[i]})
-                end
-            end
-        end
-    end
+	local map = game.ReplicatedStorage.CurrentMap.Value
+	if map ~= nil then
+		local mapstuff = map:getChildren()
+		for i = 1, #mapstuff do
+			if mapstuff[i].Name == "ComputerTable" then
+				if mapstuff[i].Screen.BrickColor ~= BrickColor.new("Dark green") then
+					local magnitude = ((mapstuff[i].Screen.Position - beast.Character:findFirstChild("HumanoidRootPart").Position).magnitude)
+					table.insert(pcs, { magnitude = magnitude, pc = mapstuff[i] })
+				end
+			end
+		end
+	end
 
-    table.sort(pcs, function(a, b) return a.magnitude > b.magnitude end)
-    return pcs
+	table.sort(pcs, function(a, b) return a.magnitude > b.magnitude end)
+	return pcs
 end
 
 function isPlayerTyping()
-local hum = game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid")
-local anims = hum:GetPlayingAnimationTracks()
-for i=1,#anims do
-if anims[i].Name == "AnimTyping" then
-return true
-end
-end
-return false
+	local hum = game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid")
+	local anims = hum:GetPlayingAnimationTracks()
+	for i = 1, #anims do
+		if anims[i].Name == "AnimTyping" then
+			return true
+		end
+	end
+	return false
 end
 
-spawn(function() -- reload esp when new map
+task.spawn(function() -- reload esp when new map
 	game.ReplicatedStorage.CurrentMap.Changed:Connect(function()
-		wait(5) -- hopefully enough time for map to load ;)
+		--repeat task.wait() until -- idk what to put for a good method to wait for map to load
+		task.wait(5)  -- hopefully enough time for map to load ;)
 		reloadESP()
 		if beastcamtoggle then
-		reloadBeastCam()	
+			reloadBeastCam()
 		end
 	end)
 end)
 
-spawn(function() -- reload esp when game becomes active
+task.spawn(function() -- reload esp when game becomes active
 	game.ReplicatedStorage.IsGameActive.Changed:Connect(function()
 		reloadESP()
 		if beastcamtoggle then
-		reloadBeastCam()	
+			reloadBeastCam()
 		end
 	end)
 end)
 
 
 
-spawn(function() --reload esp when character loads/deloads
+task.spawn(function() --reload esp when character loads/deloads
 	game:GetService("Players").PlayerAdded:Connect(function(player)
 		player.CharacterAdded:Connect(function(character)
 			reloadESP()
@@ -468,12 +469,12 @@ spawn(function() --reload esp when character loads/deloads
 	end)
 end)
 
-spawn(function() -- never fail hacking
+task.spawn(function() -- never fail hacking
 	local mt = getrawmetatable(game)
 	local old = mt.__namecall
-	setreadonly(mt,false)
+	setreadonly(mt, false)
 	mt.__namecall = newcclosure(function(self, ...)
-		local args = {...}
+		local args = { ... }
 		if getnamecallmethod() == 'FireServer' and args[1] == 'SetPlayerMinigameResult' and neverfailtoggle then
 			args[2] = true
 		end
@@ -481,127 +482,124 @@ spawn(function() -- never fail hacking
 	end)
 end)
 
-spawn(function() -- auto interact
-	game.Players.LocalPlayer.PlayerGui.ScreenGui.ActionBox:GetPropertyChangedSignal("Visible"):connect(function()
+function neverFailForBADexecutor()
+end
+
+task.spawn(function() -- auto interact
+	game.Players.LocalPlayer.PlayerGui.ScreenGui.ActionBox:GetPropertyChangedSignal("Visible"):Connect(function()
 		if autointeracttoggle then
 			game.ReplicatedStorage.RemoteEvent:FireServer("Input", "Action", true)
-		end	
+		end
+	end)
 end)
-end)
 
-spawn(function() -- auto play (buggy and still testing :))
-	while wait(3) do
-		if autoplaytoggle then	
-			
-
-local beast = getBeast()
-local map = game.ReplicatedStorage.CurrentMap.Value
-local mapstuff = map:getChildren()
-for i=1,#mapstuff do
-if mapstuff[i].Name == "SingleDoor" or mapstuff[i].Name == "DoubleDoor" then
-local doorParts = mapstuff[i]:getDescendants()
-for i=1,#doorParts do
-if doorParts[i].ClassName == "Part" and doorParts[i].Name ~= "Frame" then
-if not doorParts[i]:findFirstChild("PathfindingModifier") then
-local a = Instance.new("PathfindingModifier", doorParts[i])
-a.PassThrough = true
-end
-if doorParts[i].Name == "Frame" then
-local a = Instance.new("PathfindingModifier", doorParts[i])
-a.PassThrough = false
-a.Label = "avoid"
-end
-end
-end
-end
-end
+task.spawn(function() -- auto play (buggy and still testing :) )
+	while task.wait(3) do
+		if autoplaytoggle then
+			local beast = getBeast()
+			local map = game.ReplicatedStorage.CurrentMap.Value
+			local mapstuff = map:GetChildren()
+			for i = 1, #mapstuff do
+				if mapstuff[i].Name == "SingleDoor" or mapstuff[i].Name == "DoubleDoor" then
+					local doorParts = mapstuff[i]:GetDescendants()
+					for i = 1, #doorParts do
+						if doorParts[i].ClassName == "Part" and doorParts[i].Name ~= "Frame" then
+							if not doorParts[i]:FindFirstChild("PathfindingModifier") then
+								local a = Instance.new("PathfindingModifier", doorParts[i])
+								a.PassThrough = true
+							end
+							if doorParts[i].Name == "Frame" then
+								local a = Instance.new("PathfindingModifier", doorParts[i])
+								a.PassThrough = false
+								a.Label = "avoid"
+							end
+						end
+					end
+				end
+			end
 
 
-local pcs = getBestPC()
-local PathfindingService = game:GetService("PathfindingService")
-local Humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
-local Root = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
-local goal = nil
-local agentParams = {
-AgentRadius = 2.4,
-AgentHeight = 2,
-AgentCanJump = true,
-AgentWalkableClimb = 4,
-WaypointSpacing = 2,
-Costs = {
-avoid = 10.0
-}
-}
+			local pcs = getBestPC()
+			local PathfindingService = game:GetService("PathfindingService")
+			local Humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+			local Root = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+			local goal = nil
+			local agentParams = {
+				AgentRadius = 2.4,
+				AgentHeight = 2,
+				AgentCanJump = true,
+				AgentWalkableClimb = 4,
+				WaypointSpacing = 2,
+				Costs = {
+					avoid = 10.0
+				}
+			}
 
 
-local beastNearby = ((game.Players.LocalPlayer.Character.HumanoidRootPart.Position - beast.Character:findFirstChild("HumanoidRootPart").Position).magnitude < 50)
-for i, pc in ipairs(pcs) do
-if beastNearby then
-print("beast nearby")
-end
+			local beastNearby = ((game.Players.LocalPlayer.Character.HumanoidRootPart.Position - beast.Character:FindFirstChild("HumanoidRootPart").Position).magnitude < 50)
+			for i, pc in ipairs(pcs) do
+				if beastNearby then
+					print("beast nearby")
+				end
 
 
-if isPlayerTyping() and not beastNearby then
-break
-end
-				
-				
-goal = pc.pc["ComputerTrigger1"].Position
-local goalpc = pc.pc
-local path = PathfindingService:CreatePath(agentParams)
+				if isPlayerTyping() and not beastNearby then
+					break
+				end
 
-path:ComputeAsync(Root.Position, goal)
-print(path.Status)
-if path.Status == Enum.PathStatus.Success then
-local waypoints = path:GetWaypoints()
-for i, waypoint in ipairs(waypoints) do
 
-local ray = Ray.new(waypoints[i].Position, Vector3.new(0, 1, 0) * 3)
-local part = workspace:FindPartOnRay(ray)
-if part and part.CanCollide then
-local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
-print("need to crouch :)")
-end
+				goal = pc.pc["ComputerTrigger1"].Position
+				local goalpc = pc.pc
+				local path = PathfindingService:CreatePath(agentParams)
+
+				path:ComputeAsync(Root.Position, goal)
+				warn(path.Status)
+				if path.Status == Enum.PathStatus.Success then
+					local waypoints = path:GetWaypoints()
+					for i, waypoint in ipairs(waypoints) do
+						local ray = Ray.new(waypoints[i].Position, Vector3.new(0, 1, 0) * 3)
+						local part = workspace:FindPartOnRay(ray)
+						if part and part.CanCollide then
+							local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+							print("need to crouch :)")
+						end
 
 
 
-Humanoid:MoveTo(waypoint.Position)
-if waypoint.Action == Enum.PathWaypointAction.Jump then
-Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-end
+						Humanoid:MoveTo(waypoint.Position)
+						if waypoint.Action == Enum.PathWaypointAction.Jump then
+							Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+						end
 
-local a = Instance.new("Part", workspace)
-a.Shape = Enum.PartType.Ball
-a.Position = waypoint.Position
-a.BrickColor = BrickColor.new("Pink")
-a.Material = Enum.Material.Neon
-a.Size = Vector3.new(2,2,2)
-a.Anchored = true
-a.CanCollide = false
-local touch = false
+						local a = Instance.new("Part", workspace)
+						a.Shape = Enum.PartType.Ball
+						a.Position = waypoint.Position
+						a.BrickColor = BrickColor.new("Pink")
+						a.Material = Enum.Material.Neon
+						a.Size = Vector3.new(2, 2, 2)
+						a.Anchored = true
+						a.CanCollide = false
+						local touch = false
 
-spawn(function()
-a.Touched:Connect(function(hit)
-if hit.Parent:FindFirstChild("Humanoid") then
-if hit.Parent.Name == game.Players.LocalPlayer.Character.Name then
-touch = true
-a:remove()
-end
-end
-end)
-wait(10)
-a:remove()
-end)
-repeat
-wait(0.05)
-until touch
-end
-break
-end
-end
-				
-				
-				
+						task.spawn(function()
+							a.Touched:Connect(function(hit)
+								if hit.Parent:FindFirstChild("Humanoid") then
+									if hit.Parent.Name == game.Players.LocalPlayer.Character.Name then
+										touch = true
+										a:remove()
+									end
+								end
+							end)
+							task.wait(10)
+							a:remove()
+						end)
+						repeat
+							task.wait(0.05)
+						until touch
+					end
+					break
+				end
+			end
 		end
 	end
 end)
