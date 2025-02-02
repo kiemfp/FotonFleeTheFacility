@@ -1,4 +1,4 @@
-local ver = "v0.1.4"
+local ver = "v0.1.5"
 local wantraw = true
 gui = loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
 RunService = game:GetService("RunService")
@@ -230,28 +230,28 @@ function reloadESP()
 						mapstuff[i].Highlight:remove()
 					end
 					if pctoggle and not mapstuff[i]:findFirstChild("Highlight") then
-						local HighlightThing = Instance.new("Highlight", mapstuff[i])
-						HighlightThing.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-						HighlightThing.FillColor = Color3.fromRGB(13, 105, 172) -- avoid display bugs as soon as loads :)
-						HighlightThing.OutlineColor = Color3.fromRGB(20, 165, 270) -- avoid display bugs as soon as loads :)
+						local a = Instance.new("Highlight", mapstuff[i])
+						a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+						a.FillColor = Color3.fromRGB(13, 105, 172) -- avoid display bugs as soon as loads :)
+						a.OutlineColor = Color3.fromRGB(20, 165, 270) -- avoid display bugs as soon as loads :)
 						task.spawn(function()
 							repeat
 								if bestpctoggle and mapstuff[i]:findFirstChild("Screen") then
 									if getBestPC()[1].pc ~= nil and mapstuff[i] == getBestPC()[1].pc then
-										HighlightThing.FillColor = mapstuff[i]:findFirstChild("Screen").Color
-										HighlightThing.OutlineColor = Color3.fromRGB(200, 0, 255)
+										a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+										a.OutlineColor = Color3.fromRGB(200, 0, 255)
 									else
-										HighlightThing.FillColor = mapstuff[i]:findFirstChild("Screen").Color
-										HighlightThing.OutlineColor = Color3.fromRGB(a.FillColor.R * 400,
-										HighlightThing.FillColor.G * 400, a.FillColor.B * 400)
+										a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+										a.OutlineColor = Color3.fromRGB(a.FillColor.R * 400,
+										a.FillColor.G * 400, a.FillColor.B * 400)
 									end
 								else
-									HighlightThing.FillColor = mapstuff[i]:findFirstChild("Screen").Color
-									HighlightThing.OutlineColor = Color3.fromRGB(a.FillColor.R * 400, a.FillColor.G * 400,
-									HighlightThing.FillColor.B * 400)
+									a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+									a.OutlineColor = Color3.fromRGB(a.FillColor.R * 400, a.FillColor.G * 400,
+									a.FillColor.B * 400)
 								end
 								task.wait(2.5)
-							until mapstuff[i] == nil or HighlightThing4 == nil
+							until mapstuff[i] == nil or a == nil
 						end)
 					end
 				end
@@ -260,10 +260,10 @@ function reloadESP()
 						mapstuff[i].Highlight:remove()
 					end
 					if podstoggle and not mapstuff[i]:findFirstChild("Highlight") then
-						local HighlightThing2 = Instance.new("Highlight", mapstuff[i])
-						HighlightThing2.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-						HighlightThing2.FillColor = Color3.fromRGB(120, 200, 255)
-						HighlightThing2.OutlineColor = Color3.fromRGB(160, 255, 255)
+						local a = Instance.new("Highlight", mapstuff[i])
+						a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+						a.FillColor = Color3.fromRGB(120, 200, 255)
+						a.OutlineColor = Color3.fromRGB(160, 255, 255)
 					end
 				end
 				if mapstuff[i].Name == "ExitDoor" then
@@ -271,10 +271,10 @@ function reloadESP()
 						mapstuff[i].Highlight:remove()
 					end
 					if exitstoggle and not mapstuff[i]:findFirstChild("Highlight") then
-						local HighlightThing3 = Instance.new("Highlight", mapstuff[i])
-						HighlightThing3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-						HighlightThing3.FillColor = Color3.fromRGB(252, 255, 100)
-						HighlightThing3.OutlineColor = Color3.fromRGB(255, 255, 160)
+						local a = Instance.new("Highlight", mapstuff[i])
+						a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+						a.FillColor = Color3.fromRGB(252, 255, 100)
+						a.OutlineColor = Color3.fromRGB(255, 255, 160)
 					end
 				end
 			end
@@ -288,21 +288,21 @@ function reloadESP()
 				character.Highlight:remove()
 			end
 			if playertoggle and not character:findFirstChild("Highlight") then
-				local HighlightThing4 = Instance.new("Highlight", character)
-				HighlightThing4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-				HighlightThing4.FillColor = Color3.fromRGB(0, 255, 0) -- avoid display bugs as soon as loads :)
-				HighlightThing4.OutlineColor = Color3.fromRGB(127, 255, 127) -- avoid display bugs as soon as loads :)
+				local a = Instance.new("Highlight", character)
+				a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				a.FillColor = Color3.fromRGB(0, 255, 0) -- avoid display bugs as soon as loads :)
+				a.OutlineColor = Color3.fromRGB(127, 255, 127) -- avoid display bugs as soon as loads :)
 				task.spawn(function()
 					repeat
 						task.wait(0.5)
 						if player[i] == getBeast() then
-							HighlightThing4.FillColor = Color3.fromRGB(255, 0, 0)
-							HighlightThing4.OutlineColor = Color3.fromRGB(255, 127, 127)
+							a.FillColor = Color3.fromRGB(255, 0, 0)
+							a.OutlineColor = Color3.fromRGB(255, 127, 127)
 						else
-							HighlightThing4.FillColor = Color3.fromRGB(0, 255, 0)
-							HighlightThing4.OutlineColor = Color3.fromRGB(127, 255, 127)
+							a.FillColor = Color3.fromRGB(0, 255, 0)
+							a.OutlineColor = Color3.fromRGB(127, 255, 127)
 						end
-					until character == nil or HighlightThing4 == nil
+					until character == nil or a == nil
 				end)
 			end
 		end
@@ -358,7 +358,7 @@ function reloadBeastCam()
         end
 
         -- Clone doors
-        doors:ClearAllChildren() -- Limpa as portas antigas
+        doors:ClearAllChildren()
         for _, door in ipairs(map:GetChildren()) do
             if door.Name == "SingleDoor" or door.Name == "DoubleDoor" then
                 local doorClone = door:Clone()
@@ -367,7 +367,7 @@ function reloadBeastCam()
         end
 
         -- Clone player characters
-        dummy:ClearAllChildren() -- Limpa os clones antigos
+        dummy:ClearAllChildren()
         for _, player in ipairs(game.Players:GetChildren()) do
             if player ~= getBeast() and player.Character then
                 player.Character.Archivable = true
@@ -551,9 +551,6 @@ end)
 task.spawn(function() --reload esp when character loads/deloads
 	game:GetService("Players").PlayerAdded:Connect(function(player)
 		player.CharacterAdded:Connect(function(character)
-			reloadESP()
-		end)
-		player.CharacterRemoved:Connect(function(character)
 			reloadESP()
 		end)
 	end)
