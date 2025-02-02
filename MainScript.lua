@@ -1,7 +1,7 @@
 local ver = "v0.1.4"
 local wantraw = true
 gui = loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
-
+RunService = game:GetService("RunService")
 --lazyMethod is here
 FotonFTF = gui.FotonFTF
 MenusTabFrame = gui.MenusTabFrame
@@ -310,6 +310,96 @@ function reloadESP()
 end
 
 function reloadBeastCam()
+    ViewportFrame:ClearAllChildren()
+    
+    if not beastcamtoggle or game.ReplicatedStorage.CurrentMap.Value == nil then
+        return
+    end
+
+    local beast = getBeast()
+    local cam = Instance.new("Camera")
+    cam.CameraType = Enum.CameraType.Scriptable
+    cam.FieldOfView = 75 -- 70
+    cam.Parent = ViewportFrame
+    ViewportFrame.CurrentCamera = cam
+
+    local map = game.ReplicatedStorage.CurrentMap.Value
+    local mapclone = map:Clone()
+    mapclone.Name = "map"
+
+    -- Remove unnecessary parts from the map clone
+    for _, descendant in ipairs(mapclone:GetDescendants()) do
+        if descendant.Name == "SingleDoor" or descendant.Name == "DoubleDoor" or descendant:IsA("Sound") or descendant:IsA("LocalScript") or descendant:IsA("Script") then
+            descendant:Destroy()
+        end
+    end
+
+    mapclone.Parent = ViewportFrame
+
+    local dummy = Instance.new("Folder", ViewportFrame)
+    dummy.Name = "dummy"
+    local doors = Instance.new("Folder", ViewportFrame)
+    doors.Name = "doors"
+
+    local function updateCamera()
+        if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
+            return
+        end
+
+        local beastCharacter = getBeast().Character
+        if beastCharacter and beastCharacter:FindFirstChild("Head") then
+            cam.CFrame = beastCharacter.Head.CFrame
+        end
+    end
+
+    local function updateDummyAndDoors()
+        if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
+            return
+        end
+
+        -- Clone doors
+        doors:ClearAllChildren() -- Limpa as portas antigas
+        for _, door in ipairs(map:GetChildren()) do
+            if door.Name == "SingleDoor" or door.Name == "DoubleDoor" then
+                local doorClone = door:Clone()
+                doorClone.Parent = doors
+            end
+        end
+
+        -- Clone player characters
+        dummy:ClearAllChildren() -- Limpa os clones antigos
+        for _, player in ipairs(game.Players:GetChildren()) do
+            if player ~= getBeast() and player.Character then
+                player.Character.Archivable = true
+                local dummyClone = player.Character:Clone()
+                for _, part in ipairs(dummyClone:GetDescendants()) do
+                    if part:IsA("Sound") or part:IsA("LocalScript") or part:IsA("Script") then
+                        part:Destroy()
+                    end
+                end
+                dummyClone.Parent = dummy
+            end
+        end
+    end
+
+    -- Connect to Heartbeat for continuous updates
+    local heartbeatConnection
+    heartbeatConnection = RunService.Heartbeat:Connect(function()
+        if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
+            heartbeatConnection:Disconnect()
+            cam:Destroy()
+            mapclone:Destroy()
+            dummy:Destroy()
+            doors:Destroy()
+            return
+        end
+
+        updateCamera()
+        updateDummyAndDoors()
+    end)
+end
+
+function old_reloadBeastCam()
 	ViewportFrame:ClearAllChildren()
 	if beastcamtoggle and game.ReplicatedStorage.CurrentMap.Value ~= nil then
 		local beast = getBeast()
@@ -398,7 +488,7 @@ function getBeast()
 	local player = game.Players:GetChildren()
 	for i = 1, #player do
 		local character = player[i].Character
-		if player[i]:findFirstChild("TempPlayerStatsModule"):findFirstChild("IsBeast").Value == true or (character ~= nil and character:findFirstChild("BeastPowers")) then
+		if player[i]:FindFirstChild("TempPlayerStatsModule"):FindFirstChild("IsBeast").Value == true or (character ~= nil and character:findFirstChild("BeastPowers")) then
 			return player[i]
 		end
 	end
@@ -410,11 +500,11 @@ function getBestPC()
 
 	local map = game.ReplicatedStorage.CurrentMap.Value
 	if map ~= nil then
-		local mapstuff = map:getChildren()
+		local mapstuff = map:GetChildren()
 		for i = 1, #mapstuff do
 			if mapstuff[i].Name == "ComputerTable" then
 				if mapstuff[i].Screen.BrickColor ~= BrickColor.new("Dark green") then
-					local magnitude = ((mapstuff[i].Screen.Position - beast.Character:findFirstChild("HumanoidRootPart").Position).magnitude)
+					local magnitude = ((mapstuff[i].Screen.Position - beast.Character:FindFirstChild("HumanoidRootPart").Position).magnitude)
 					table.insert(pcs, { magnitude = magnitude, pc = mapstuff[i] })
 				end
 			end
@@ -426,7 +516,7 @@ function getBestPC()
 end
 
 function isPlayerTyping()
-	local hum = game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid")
+	local hum = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
 	local anims = hum:GetPlayingAnimationTracks()
 	for i = 1, #anims do
 		if anims[i].Name == "AnimTyping" then
