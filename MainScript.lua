@@ -1,7 +1,8 @@
-local ver = "v0.1.5"
+local ver = "v0.1.55"
 local wantraw = true
 gui = loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
 RunService = game:GetService("RunService")
+Players = game:GetService("Players")
 --lazyMethod is here
 FotonFTF = gui.FotonFTF
 MenusTabFrame = gui.MenusTabFrame
@@ -309,6 +310,13 @@ function reloadESP()
 	end
 end
 
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
+-- Configurações
+local RENDER_DISTANCE = 50 -- Distância máxima para renderizar partes e jogadores
+local UPDATE_INTERVAL = 0.3 -- Intervalo de atualização para clones de jogadores e portas
+
 function reloadBeastCam()
     ViewportFrame:ClearAllChildren()
     
@@ -319,7 +327,7 @@ function reloadBeastCam()
     local beast = getBeast()
     local cam = Instance.new("Camera")
     cam.CameraType = Enum.CameraType.Scriptable
-    cam.FieldOfView = 75 -- 70
+    cam.FieldOfView = 70
     cam.Parent = ViewportFrame
     ViewportFrame.CurrentCamera = cam
 
@@ -327,7 +335,7 @@ function reloadBeastCam()
     local mapclone = map:Clone()
     mapclone.Name = "map"
 
-    -- Remove unnecessary parts from the map clone
+    -- Remove partes desnecessárias do clone do mapa
     for _, descendant in ipairs(mapclone:GetDescendants()) do
         if descendant.Name == "SingleDoor" or descendant.Name == "DoubleDoor" or descendant:IsA("Sound") or descendant:IsA("LocalScript") or descendant:IsA("Script") then
             descendant:Destroy()
@@ -357,32 +365,40 @@ function reloadBeastCam()
             return
         end
 
-        -- Clone doors
+        -- Atualiza as portas
         doors:ClearAllChildren()
         for _, door in ipairs(map:GetChildren()) do
             if door.Name == "SingleDoor" or door.Name == "DoubleDoor" then
-                local doorClone = door:Clone()
-                doorClone.Parent = doors
+                local doorPosition = door:GetPivot().Position
+                local camPosition = cam.CFrame.Position
+                if (doorPosition - camPosition).Magnitude <= RENDER_DISTANCE then
+                    local doorClone = door:Clone()
+                    doorClone.Parent = doors
+                end
             end
         end
 
-        -- Clone player characters
+        -- Atualiza os clones dos jogadores
         dummy:ClearAllChildren()
-        for _, player in ipairs(game.Players:GetChildren()) do
+        for _, player in ipairs(Players:GetPlayers()) do
             if player ~= getBeast() and player.Character then
-                player.Character.Archivable = true
-                local dummyClone = player.Character:Clone()
-                for _, part in ipairs(dummyClone:GetDescendants()) do
-                    if part:IsA("Sound") or part:IsA("LocalScript") or part:IsA("Script") then
-                        part:Destroy()
+                local charPosition = player.Character:GetPivot().Position
+                local camPosition = cam.CFrame.Position
+                if (charPosition - camPosition).Magnitude <= RENDER_DISTANCE then
+                    player.Character.Archivable = true
+                    local dummyClone = player.Character:Clone()
+                    for _, part in ipairs(dummyClone:GetDescendants()) do
+                        if part:IsA("Sound") or part:IsA("LocalScript") or part:IsA("Script") then
+                            part:Destroy()
+                        end
                     end
+                    dummyClone.Parent = dummy
                 end
-                dummyClone.Parent = dummy
             end
         end
     end
 
-    -- Connect to Heartbeat for continuous updates
+    -- Conecta ao Heartbeat para atualizações contínuas
     local heartbeatConnection
     heartbeatConnection = RunService.Heartbeat:Connect(function()
         if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
@@ -487,7 +503,7 @@ end
 function getBeast()
 	local player = game.Players:GetChildren()
 	for i = 1, #player do
-		local character = player[i].Character
+		local character = player[i].Character or player[i].CharacterAdded
 		if player[i]:FindFirstChild("TempPlayerStatsModule"):FindFirstChild("IsBeast").Value == true or (character ~= nil and character:findFirstChild("BeastPowers")) then
 			return player[i]
 		end
@@ -559,7 +575,7 @@ end)
 task.spawn(function() -- never fail hacking
 	local mt = getrawmetatable(game)
 	local old = mt.__namecall
-	setreadonly(mt, false)
+	if setreadonly then setreadonly(mt, false) else return end
 	mt.__namecall = newcclosure(function(self, ...)
 		local args = { ... }
 		if getnamecallmethod() == 'FireServer' and args[1] == 'SetPlayerMinigameResult' and neverfailtoggle then

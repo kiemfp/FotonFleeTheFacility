@@ -1,4 +1,4 @@
-local ver = "v0.1.5"
+local ver = "v0.1.55"
 
 gui = {}
 
@@ -103,6 +103,8 @@ ViewportFrame = gui.ViewportFrame
 
 FotonFTF.Name = "FotonFTF"
 FotonFTF.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+FotonFTF.IgnoreGuiInset = true
+FotonFTF.ResetOnSpawn = false
 
 MenusTabFrame.Name = "MenusTabFrame"
 MenusTabFrame.Parent = FotonFTF
