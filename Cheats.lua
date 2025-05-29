@@ -1,4 +1,4 @@
-local ver = "v0.1.6"
+local ver = shared.FotonFTFVERSION
 local wantraw = true
 gui = loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/GuiScript.lua", wantraw))()
 RunService = game:GetService("RunService")
