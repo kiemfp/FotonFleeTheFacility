@@ -1,4 +1,4 @@
-local ver = "v0.1.6"
+local ver = shared.FotonFTFVERSION
 
 gui = {}
 
