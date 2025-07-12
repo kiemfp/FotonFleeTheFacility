@@ -1,4 +1,4 @@
-shared.FotonFTFVERSION = "0.1.6-B"
+getgenv().FotonFTFVERSION = "0.1.6-B"
 loadstring(game:HttpGet("https://raw.githubusercontent.com/kiemfp/FotonFleeTheFacility/refs/heads/main/Cheats.lua", true))() -- forgot the "()"
 --TODO: add UNC checks...
 --Sorry for the last commit, I was testing the version 2 and i pushed to the main branch by mistake.
