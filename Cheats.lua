@@ -353,10 +353,10 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 
 -- Configurações
-local RENDER_DISTANCE = 50  -- Distância máxima para renderizar partes e jogadores
-local UPDATE_INTERVAL = 0.3 -- Intervalo de atualização para clones de jogadores e portas
+local RENDER_DISTANCE = 50  -- Max distance to rendar Players and Map
+local UPDATE_INTERVAL = 0.3 -- Update interval, obviously. 
 
-function reloadBeastCam()
+function reloadBeastCam() -- worst code I've ever made... 
 	ViewportFrame:ClearAllChildren()
 
 	if not beastcamtoggle or game.ReplicatedStorage.CurrentMap.Value == nil then
@@ -374,9 +374,9 @@ function reloadBeastCam()
 	local mapclone = map:Clone()
 	mapclone.Name = "map"
 
-	-- Remove partes desnecessárias do clone do mapa
+	-- remove unnecessary parts
 	for _, descendant in ipairs(mapclone:GetDescendants()) do
-		if descendant.Name == "SingleDoor" or descendant.Name == "DoubleDoor" or descendant:IsA("Sound") or descendant:IsA("LocalScript") or descendant:IsA("Script") then
+		if descendant.Name == "SingleDoor" or descendant.Name == "DoubleDoor" or descendant:IsA("Sound") or descendant:IsA("LocalScript") or descendant:IsA("Script") or descendant:IsA("ModuleScript") then
 			descendant:Destroy()
 		end
 	end
@@ -404,7 +404,7 @@ function reloadBeastCam()
 			return
 		end
 
-		-- Atualiza as portas
+		-- update the doors
 		doors:ClearAllChildren()
 		for _, door in ipairs(map:GetChildren()) do
 			if door.Name == "SingleDoor" or door.Name == "DoubleDoor" then
@@ -417,7 +417,7 @@ function reloadBeastCam()
 			end
 		end
 
-		-- Atualiza os clones dos jogadores
+		-- Update Player Clones
 		dummy:ClearAllChildren()
 		for _, player in ipairs(Players:GetPlayers()) do
 			if player ~= getBeast() and player.Character then
@@ -437,7 +437,7 @@ function reloadBeastCam()
 		end
 	end
 
-	-- Conecta ao Heartbeat para atualizações contínuas
+	-- Make it Beat with your heart. 
 	local heartbeatConnection
 	heartbeatConnection = RunService.Heartbeat:Connect(function()
 		if not beastcamtoggle or not cam or not mapclone or beast ~= getBeast() then
@@ -454,7 +454,7 @@ function reloadBeastCam()
 	end)
 end
 
-function old_reloadBeastCam()
+function old_reloadBeastCam() -- very unoptimized, no max render limit, etc. 
 	ViewportFrame:ClearAllChildren()
 	if beastcamtoggle and game.ReplicatedStorage.CurrentMap.Value ~= nil then
 		local beast = getBeast()
@@ -549,7 +549,7 @@ function getBeast()
 	end
 end
 
-function getBestPC()
+function getBestPC()-- distance based
 	local beast = getBeast()
 	local pcs = {}
 
@@ -584,7 +584,7 @@ end
 task.spawn(function() -- reload esp when new map
 	game.ReplicatedStorage.CurrentMap.Changed:Connect(function()
 		--repeat task.wait() until -- idk what to put for a good method to wait for map to load
-		task.wait(5) -- hopefully enough time for map to load ;)
+		task.wait(5) -- hopefully enough time for map to load ;), no, mobile players suck. 
 		reloadESP()
 		if beastcamtoggle then
 			reloadBeastCam()
@@ -680,7 +680,11 @@ task.spawn(function() -- auto play (buggy and still testing :) )
 			local beastNearby = ((game.Players.LocalPlayer.Character.HumanoidRootPart.Position - beast.Character:FindFirstChild("HumanoidRootPart").Position).magnitude < 50)
 			for i, pc in ipairs(pcs) do
 				if beastNearby then
-					print("beast nearby")
+					--print("beast nearby") --useless shit
+					game:GetService("StarterGui"):SetCore("SendNotification", {
+						Title = "Flee The Facility", 
+						Text = "BUDDY!, U NEED TO RUN!!!¡¡!!¡!, BEAST's HERE!!!!"
+					} 
 				end
 
 
@@ -702,7 +706,11 @@ task.spawn(function() -- auto play (buggy and still testing :) )
 						local part = workspace:FindPartOnRay(ray)
 						if part and part.CanCollide then
 							local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
-							print("need to crouch :)")
+							--print("need to crouch :)")
+							game:GetService("StarterGui"):SetCore("SendNotification", {
+								Title = "Flee The Facility", 
+								Text = "yoo, need to crouch."
+							} 
 						end
 
 
@@ -744,3 +752,48 @@ task.spawn(function() -- auto play (buggy and still testing :) )
 		end
 	end
 end)
+
+
+
+--infinity yield source 
+function getRoot(char)
+	local rootPart = char:FindFirstChild('HumanoidRootPart') or char:FindFirstChild('Torso') or char:FindFirstChild('UpperTorso')
+	return rootPart
+end
+gotopartDelay = 0.1
+function gotoPart(args, speaker)
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.Name:lower() == args and v:IsA("BasePart") then
+			if speaker.Character:FindFirstChildOfClass('Humanoid') and speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart then
+				speaker.Character:FindFirstChildOfClass('Humanoid').Sit = false
+				task.wait(.1)
+			end
+			task.wait(gotopartDelay)
+			getRoot(speaker.Character).CFrame = v.CFrame
+		end
+	end
+end
+-- infiniteyield source end
+
+Tps = {
+	Party = "OBSpawnPad", 
+	Lobby = "LobbySpawnPad"
+} 
+
+-- revive(literally tp you to the map, and can break pods/pcs 
+-- depending on the way you were on the game before
+-- like, if you just entered the server, and click to revive*, you prob will break anything you interact. 
+-- but if you died an clicked on revive, you prob won't bug the pods/pcs. 
+-- if u leave and rejoin on the same server, with the same party, prob you will break it too 
+-- idk if u understood.
+function revive(Host: Player) -- host: LocalPlayer
+	if not Host then error("lel") end
+	gotopart(Tps.Party, Host)
+end
+function gotoLobby(Host: Player)
+	if not Host then error("lal") end
+	gotopart(Tps.Lobby, Host)
+end
+
+-- revive(game.Players.LocalPlayer)
+-- gotoLobby(game.Players.LocalPlayer)
