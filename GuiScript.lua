@@ -1,4 +1,4 @@
-local ver = shared.FotonFTFVERSION
+local ver = getgenv().FotonFTFVERSION
 
 gui = {}
 
